@@ -7,8 +7,6 @@ import { COUNTER_TRACK } from './counter-track.enum';
   styleUrls: ['./route3.component.scss'],
 })
 export class Route3Component implements OnInit {
-  timerValue = 0;
-  clickTrack!: COUNTER_TRACK;
   constructor() {}
 
   ngOnInit(): void {}
