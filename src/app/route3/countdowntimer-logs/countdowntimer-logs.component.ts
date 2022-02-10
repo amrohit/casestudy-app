@@ -1,15 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { COUNTER_TRACK } from '../counter-track.enum';
 
 @Component({
   selector: 'app-countdowntimer-logs',
   templateUrl: './countdowntimer-logs.component.html',
-  styleUrls: ['./countdowntimer-logs.component.scss']
+  styleUrls: ['./countdowntimer-logs.component.scss'],
 })
-export class CountdowntimerLogsComponent implements OnInit {
+export class CountdowntimerLogsComponent implements OnInit, OnChanges {
+  @Input() countTrack!: COUNTER_TRACK;
+  logs: string[] = [];
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.countTrack === COUNTER_TRACK.START) {
+      this.logs.push(`Started at ${new Date().toLocaleString()}`);
+    }
+    if (this.countTrack === COUNTER_TRACK.PAUSE) {
+      this.logs.push(`Paused at ${new Date().toLocaleString()}`);
+    }
   }
-
 }
