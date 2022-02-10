@@ -1,15 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CountService } from '../count.service';
 
 @Component({
   selector: 'app-countdowntimer',
   templateUrl: './countdowntimer.component.html',
-  styleUrls: ['./countdowntimer.component.scss']
+  styleUrls: ['./countdowntimer.component.scss'],
 })
 export class CountdowntimerComponent implements OnInit {
-  @Input() timerValue = 0;
-  constructor() { }
+  timerValue$ = this.counterService.timerVal$;
+  constructor(private counterService: CountService) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

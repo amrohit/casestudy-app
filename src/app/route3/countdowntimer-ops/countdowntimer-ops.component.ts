@@ -5,6 +5,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CountService } from '../count.service';
 import { COUNTER_TRACK } from '../counter-track.enum';
 
 @Component({
@@ -18,12 +20,11 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
   isStarted = false;
   btnLabel = 'Start';
   logs: string[] = [];
-  @Output() emitTimerCount = new EventEmitter<any>();
-  @Output() emitCounterTrack = new EventEmitter<COUNTER_TRACK>();
-
+  emitTimerCountSubs!: Subscription;
+  emitCounterTrackSubs!: Subscription;
   setIntervalVal!: any;
   prevTimeVal = 0;
-  constructor() {}
+  constructor(private countService: CountService) {}
 
   ngOnInit(): void {}
 
@@ -35,7 +36,7 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
     if (!this.isStarted) {
       clearInterval(this.setIntervalVal);
       this.prevTimeVal = +this.timerValueOps;
-      this.emitCounterTrack.emit(COUNTER_TRACK.PAUSE);
+      this.countService.yieldCounterTrack(COUNTER_TRACK.PAUSE);
       this.logs.unshift(`Paused at ${this.timerValueOps}`);
     } else {
       if (!this.prevTimeVal) {
@@ -43,7 +44,7 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
       } else {
         this.executeTimer(this.prevTimeVal);
       }
-      this.emitCounterTrack.emit(COUNTER_TRACK.START);
+      this.countService.yieldCounterTrack(COUNTER_TRACK.START);
     }
   }
 
@@ -54,8 +55,8 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
     this.prevTimeVal = 0;
     this.timerValueOps = 0;
     clearInterval(this.setIntervalVal);
-    this.emitTimerCount.emit(0);
-    this.emitCounterTrack.emit(COUNTER_TRACK.RESET);
+    this.countService.yieldTimerVal(0);
+    this.countService.yieldCounterTrack(COUNTER_TRACK.RESET);
   }
 
   executeTimer(numMs: any) {
@@ -63,10 +64,10 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
     this.setIntervalVal = setInterval(() => {
       if (numMs <= 0) {
         this.onReset();
-        this.emitTimerCount.emit(0);
+        this.countService.yieldTimerVal(0);
       } else {
         this.timerValueOps = numMs;
-        this.emitTimerCount.emit(this.timerValueOps);
+        this.countService.yieldTimerVal(this.timerValueOps);
       }
       numMs -= 1;
     }, 1000);
