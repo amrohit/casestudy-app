@@ -20,10 +20,10 @@ export class CountdowntimerLogsComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
   ngOnChanges(changes: SimpleChanges): void {
     if (this.countTrack === COUNTER_TRACK.START) {
-      this.logs.push(`Started at ${new Date().toLocaleString()}`);
+      this.logs.unshift(`Started at ${new Date().toLocaleString()}`);
     }
     if (this.countTrack === COUNTER_TRACK.PAUSE) {
-      this.logs.push(`Paused at ${new Date().toLocaleString()}`);
+      this.logs.unshift(`Paused at ${new Date().toLocaleString()}`);
     }
   }
 }

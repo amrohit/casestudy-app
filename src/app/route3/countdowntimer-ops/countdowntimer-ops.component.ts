@@ -17,6 +17,7 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
   timerValueOps = 0;
   isStarted = false;
   btnLabel = 'Start';
+  logs: string[] = [];
   @Output() emitTimerCount = new EventEmitter<any>();
   @Output() emitCounterTrack = new EventEmitter<COUNTER_TRACK>();
 
@@ -35,6 +36,7 @@ export class CountdowntimerOpsComponent implements OnInit, OnDestroy {
       clearInterval(this.setIntervalVal);
       this.prevTimeVal = +this.timerValueOps;
       this.emitCounterTrack.emit(COUNTER_TRACK.PAUSE);
+      this.logs.unshift(`Paused at ${this.timerValueOps}`);
     } else {
       if (!this.prevTimeVal) {
         this.executeTimer(this.timerValueOps);

@@ -16,3 +16,13 @@
 .margin-top7 {
   margin-top: 7px;
 }
+.log-row {
+  margin-top: 6%;
+  max-height: 55px;
+  overflow: hidden;
+  .log-text {
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+  }
+}
