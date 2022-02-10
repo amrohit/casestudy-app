@@ -1,1 +1,26 @@
-<p>route5 works!</p>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <td (click)="sortBy('name')">Name</td>
+          <td (click)="sortBy('class')">Class</td>
+          <td (click)="sortBy('section')">Section</td>
+          <td (click)="sortBy('sub1')">Sub1</td>
+          <td (click)="sortBy('sub2')">Sub2</td>
+          <td (click)="sortBy('sub3')">Sub3</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mockApiResponse">
+          <td>{{ item.name }}</td>
+          <td>{{ item.class }}</td>
+          <td>{{ item.section }}</td>
+          <td>{{ item.sub1 }}</td>
+          <td>{{ item.sub2 }}</td>
+          <td>{{ item.sub3 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
