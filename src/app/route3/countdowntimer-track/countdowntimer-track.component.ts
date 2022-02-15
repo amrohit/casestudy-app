@@ -16,6 +16,7 @@ export class CountdowntimerTrackComponent implements OnInit, OnChanges {
   start = 0;
   paused = 0;
   @Input() countTrack!: COUNTER_TRACK;
+
   constructor() {}
 
   ngOnInit(): void {}

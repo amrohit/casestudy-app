@@ -19,6 +19,7 @@ export class Route5Component implements OnInit {
   mockApiResponse: IMockResponse[] = [];
   clickCount = 0;
   lastKey = '';
+  key = '';
   constructor() {}
 
   ngOnInit(): void {
@@ -29,23 +30,42 @@ export class Route5Component implements OnInit {
     this.mockApiResponse = [...mockData];
   }
 
-  sortBy(key: string) {
-    if (key !== this.lastKey && this.lastKey !== '') {
+  sortBy(keyStr: string) {
+    this.key = keyStr;
+    console.log('key => ', this.key);
+    console.log('lastkey => ', this.lastKey);
+    console.log('clickcount => ', this.clickCount);
+    if (
+      this.key !== this.lastKey &&
+      this.lastKey !== '' &&
+      this.clickCount !== 0 &&
+      this.clickCount !== 1
+    ) {
       this.clickCount = 0;
       this.getData();
-      this.lastKey = key;
+      this.lastKey = this.key;
       return;
     }
     if (this.clickCount === 0) {
-      this.mockApiResponse.sort((a: any, b: any) => a[key] - b[key]);
+      this.mockApiResponse.sort((a: any, b: any) => {
+        if (a[keyStr] < b[keyStr]) {
+          return -1;
+        }
+        return 0;
+      });
       this.clickCount = this.clickCount + 1;
     } else if (this.clickCount === 1) {
-      this.mockApiResponse.sort((a: any, b: any) => b[key] - a[key]);
+      this.mockApiResponse.sort((a: any, b: any) => {
+        if (a[this.key] > b[this.key]) {
+          return -1;
+        }
+        return 0;
+      });
       this.clickCount = this.clickCount + 1;
     } else {
       this.clickCount = 0;
       this.getData();
     }
-    this.lastKey = key;
+    this.lastKey = this.key;
   }
 }
