@@ -29,23 +29,68 @@ export class Route5Component implements OnInit {
     this.mockApiResponse = [...mockData];
   }
 
-  sortBy(key: string) {
-    if (key !== this.lastKey && this.lastKey !== '') {
+  /**
+   * Basic sort method attached over table column onChange event
+   * @param keyStr
+   * @returns
+   */
+  sortBy(keyStr: string) {
+    if (this.isDefaultData(keyStr)) {
       this.clickCount = 0;
       this.getData();
-      this.lastKey = key;
+      this.lastKey = keyStr;
       return;
     }
     if (this.clickCount === 0) {
-      this.mockApiResponse.sort((a: any, b: any) => a[key] - b[key]);
+      this.sortAsc(keyStr);
       this.clickCount = this.clickCount + 1;
     } else if (this.clickCount === 1) {
-      this.mockApiResponse.sort((a: any, b: any) => b[key] - a[key]);
+      this.sortDesc(keyStr);
       this.clickCount = this.clickCount + 1;
     } else {
       this.clickCount = 0;
       this.getData();
     }
-    this.lastKey = key;
+    this.lastKey = keyStr;
+  }
+
+  /**
+   * to load default data
+   * @param keyStr
+   * @returns
+   */
+  isDefaultData(keyStr: any) {
+    return (
+      keyStr !== this.lastKey &&
+      this.lastKey !== '' &&
+      this.clickCount !== 0 &&
+      this.clickCount !== 1
+    );
+  }
+
+  /**
+   * Convert data in ascending
+   * @param keyStr
+   */
+  sortAsc(keyStr: any) {
+    this.mockApiResponse.sort((a: any, b: any) => {
+      if (a[keyStr] < b[keyStr]) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
+  /**
+   * Convert data in descending
+   * @param keyStr
+   */
+  sortDesc(keyStr: any) {
+    this.mockApiResponse.sort((a: any, b: any) => {
+      if (a[keyStr] > b[keyStr]) {
+        return -1;
+      }
+      return 0;
+    });
   }
 }
